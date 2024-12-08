@@ -7,6 +7,8 @@ local UserInputService = game:GetService("UserInputService")
 -- Manages the primary action of the player in this combat system.
 local PrimaryActionSystem = {}
 
+PrimaryActionSystem.name = "PrimaryActionSystem"
+
 PrimaryActionSystem.dependencies = {
     InputSystem.system
 }

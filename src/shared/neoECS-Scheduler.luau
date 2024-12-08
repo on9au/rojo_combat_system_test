@@ -9,20 +9,10 @@ neoECSScheduler.__index = neoECSScheduler
 
 -- Define the types for the system and dependencies
 type System = () -> ()  -- System is a function that takes no arguments and returns nothing
-type SystemData = {system: System, interval: number, lastRun: number}
-
--- Define the type of neoECSScheduler
-type neoECSScheduler = {
-    systems: {SystemData},               -- List of registered systems
-    dependencies: {[System]: {[System]: boolean}},  -- Map of systems to their dependencies
-    executed: {[System]: boolean},       -- Map of systems and whether they have been executed
-    new: () -> neoECSScheduler,          -- Constructor to create a new scheduler
-    RegisterSystem: (self: neoECSScheduler, system: System, interval: number, dependencies: {System}?) -> (),  -- Method to register a system
-    Update: (self: neoECSScheduler, deltaTime: number) -> ()  -- Method to update systems based on deltaTime
-}
+type SystemData = {name: string, system: System, interval: number, lastRun: number}
 
 -- Create a new neoECSScheduler
-function neoECSScheduler.new(): neoECSScheduler
+function neoECSScheduler.new()
     local self = setmetatable({}, neoECSScheduler)
     self.systems = {}   -- Table to hold all systems (Array of SystemData)
     self.dependencies = {}  -- Store system dependencies (system -> list of dependencies)
@@ -48,7 +38,7 @@ local function hasCycle(system, dependencies, visited, stack)
 end
 
 -- Register a system and its dependencies
-function neoECSScheduler:RegisterSystem(system: System, interval: number, dependencies: {System}?)
+function neoECSScheduler:RegisterSystem(name: string, system: System, interval: number, dependencies: {System}?)
     dependencies = dependencies or {}
     self.dependencies[system] = dependencies
 
@@ -59,7 +49,7 @@ function neoECSScheduler:RegisterSystem(system: System, interval: number, depend
         error("Cyclic dependency detected for system: " .. tostring(system))
     end
 
-    table.insert(self.systems, {system = system, interval = interval, lastRun = 0})
+    table.insert(self.systems, {name = name, system = system, interval = interval, lastRun = 0})
     self.executed[system] = false
 end
 
@@ -82,7 +72,7 @@ function neoECSScheduler:Update(deltaTime: number)
                     system()  -- Execute the system's function
                     sys.lastRun = 0  -- Reset the timer
                     self.executed[system] = true  -- Mark the system as executed
-                    print(system .. " executed.")
+                    print(sys.name .. " executed.")
                 end
             end
         end

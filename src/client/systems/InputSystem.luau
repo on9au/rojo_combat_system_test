@@ -7,6 +7,8 @@ local UserInputService = game:GetService("UserInputService")
 -- This system is responsible for handling all input events and updating the game state accordingly.
 local InputSystem = {}
 
+InputSystem.name = "InputSystem"
+
 InputSystem.dependencies = {}
 
 InputSystem.interval = 0 -- Update every Heartbeat
