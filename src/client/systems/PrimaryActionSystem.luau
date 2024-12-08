@@ -25,7 +25,7 @@ end
 -- local PUNCH_COOLDOWN = 1 -- Cooldown time in seconds
 
 function PrimaryActionSystem.system()
-    for _, entity in ipairs(CollectionService:GetTagged("Player")) do
+    for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
         -- Check for punching state using an attribute
         local isPunching = entity:GetAttribute("IsPunching")
         

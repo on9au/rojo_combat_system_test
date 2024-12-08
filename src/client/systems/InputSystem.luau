@@ -15,7 +15,7 @@ InputSystem.interval = 0 -- Update every Heartbeat
 
 function InputSystem.system()
     -- Loop through all entities with the "Player" tag
-    for _, entity in ipairs(CollectionService:GetTagged("Player")) do
+    for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
         -- Get or create the InputComponent (Attribute) for the entity
         InputComponent.init(entity)
 

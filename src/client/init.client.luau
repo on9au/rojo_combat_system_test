@@ -3,8 +3,8 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local neoECSScheduler = require(ReplicatedStorage.Shared:FindFirstChild("neoECS-Scheduler"))
 
--- Tag the client's player as "Player"
-CollectionService:AddTag(Players.LocalPlayer, "Player")
+-- Tag the client's player as "LocalPlayer"
+CollectionService:AddTag(Players.LocalPlayer, "LocalPlayer")
 
 -- Setup the neoECS-Scheduler
 
