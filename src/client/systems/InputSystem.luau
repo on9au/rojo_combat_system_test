@@ -20,10 +20,28 @@ function InputSystem.system()
         InputComponent.init(entity)
 
         -- Detect left-click (or key press) for punching
-        local isLeftClick = UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+        local isLeftClickDown = UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 
-        -- Update the IsPunching attribute based on the left-click state
-        entity:SetAttribute("IsPunching", isLeftClick)
+        -- Get IsPrimaryButtonDown attribute from the entity
+        local wasLeftClickDown = entity:GetAttribute("IsPrimaryButtonDown")
+
+        if isLeftClickDown and not wasLeftClickDown then
+            -- The player has clicked the Primary Attack button
+            -- Update the IsPrimaryButtonPressed attribute
+            entity:SetAttribute("IsPrimaryButtonPressed", true)
+        elseif not isLeftClickDown and wasLeftClickDown then
+            -- The player has released the Primary Attack button
+            -- Update the IsPrimaryButtonReleased attribute
+            entity:SetAttribute("IsPrimaryButtonReleased", true)
+        elseif not isLeftClickDown and not wasLeftClickDown then
+            -- The player has not clicked the Primary Attack button
+            -- Reset the IsPrimaryButtonPressed and IsPrimaryButtonReleased attributes
+            entity:SetAttribute("IsPrimaryButtonPressed", false)
+            entity:SetAttribute("IsPrimaryButtonReleased", false)
+        end
+
+        -- Update the IsPrimaryButtonDown attribute based on the left-click state
+        entity:SetAttribute("IsPrimaryButtonDown", isLeftClickDown)
     end
 end
 
