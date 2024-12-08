@@ -27,7 +27,7 @@ end
 function PrimaryActionSystem.system()
     for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
         -- Check for punching state using an attribute
-        local isPunching = entity:GetAttribute("IsPunching")
+        local isPunching = entity:GetAttribute("IsPrimaryButtonPressed")
         
         if isPunching then
             -- Handle punching logic here

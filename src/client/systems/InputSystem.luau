@@ -13,6 +13,9 @@ InputSystem.dependencies = {}
 
 InputSystem.interval = 0 -- Update every Heartbeat
 
+-- Store the previous state of the button for each entity
+local previousState = {}
+
 function InputSystem.system()
     -- Loop through all entities with the "Player" tag
     for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
@@ -22,26 +25,28 @@ function InputSystem.system()
         -- Detect left-click (or key press) for punching
         local isLeftClickDown = UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 
-        -- Get IsPrimaryButtonDown attribute from the entity
-        local wasLeftClickDown = entity:GetAttribute("IsPrimaryButtonDown")
-
-        if isLeftClickDown and not wasLeftClickDown then
-            -- The player has clicked the Primary Attack button
-            -- Update the IsPrimaryButtonPressed attribute
-            entity:SetAttribute("IsPrimaryButtonPressed", true)
-        elseif not isLeftClickDown and wasLeftClickDown then
-            -- The player has released the Primary Attack button
-            -- Update the IsPrimaryButtonReleased attribute
-            entity:SetAttribute("IsPrimaryButtonReleased", true)
-        elseif not isLeftClickDown and not wasLeftClickDown then
-            -- The player has not clicked the Primary Attack button
-            -- Reset the IsPrimaryButtonPressed and IsPrimaryButtonReleased attributes
-            entity:SetAttribute("IsPrimaryButtonPressed", false)
-            entity:SetAttribute("IsPrimaryButtonReleased", false)
-        end
+        -- Get the previous state of the button
+        local prevState = previousState[entity] or false
 
         -- Update the IsPrimaryButtonDown attribute based on the left-click state
         entity:SetAttribute("IsPrimaryButtonDown", isLeftClickDown)
+
+        -- Update the IsPrimaryButtonPressed attribute
+        if isLeftClickDown and not prevState then
+            entity:SetAttribute("IsPrimaryButtonPressed", true)
+        else
+            entity:SetAttribute("IsPrimaryButtonPressed", false)
+        end
+
+        -- Update the IsPrimaryButtonReleased attribute
+        if not isLeftClickDown and prevState then
+            entity:SetAttribute("IsPrimaryButtonReleased", true)
+        else
+            entity:SetAttribute("IsPrimaryButtonReleased", false)
+        end
+
+        -- Store the current state as the previous state for the next frame
+        previousState[entity] = isLeftClickDown
     end
 end
 
