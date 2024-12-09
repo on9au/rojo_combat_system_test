@@ -1,5 +1,7 @@
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local neoECSScheduler = require(ReplicatedStorage.Shared:FindFirstChild("neoECS-Scheduler"))
+local PrimaryActionItemComponent = require(script.components.PrimaryActionItemComponent)
 
 -- RemoteEvents Setup
 
@@ -20,6 +22,18 @@ for _, eventHandlerModule in eventHandlersFolder:GetChildren() do
         require(eventHandlerModule)
     end
 end
+
+-- Inital Player Setup
+
+-- Initialize PrimaryActionComponent for existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    PrimaryActionItemComponent.init(player)
+end
+
+-- Initialize PrimaryActionComponent when new players join
+Players.PlayerAdded:Connect(function(player)
+    PrimaryActionItemComponent.init(player)
+end)
 
 -- Scheduler Setup
 

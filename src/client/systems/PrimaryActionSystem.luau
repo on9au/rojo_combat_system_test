@@ -2,7 +2,6 @@ local InputSystem = require(script.Parent.InputSystem)
 local ComboComponent = require(script.Parent.Parent.components.ComboComponent)
 local AnimationComponent = require(script.Parent.Parent.components.AnimationComponent)
 local CooldownComponent = require(script.Parent.Parent.components.CooldownComponent)
-local PrimaryActionComponent = require(script.Parent.Parent.components.PrimaryActionComponent)
 local PrimaryActionItems = require(game:GetService("ReplicatedStorage").Shared.primaryItems.PrimaryItems)
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -27,7 +26,6 @@ function PrimaryActionSystem.system(_deltaTime)
 		ComboComponent.init(entity)
 		AnimationComponent.init(entity)
 		CooldownComponent.init(entity)
-		PrimaryActionComponent.init(entity)
 
 		-- Get the primary action item
 		local primaryActionItemName = entity:GetAttribute("PrimaryActionItem") or "Punch"
