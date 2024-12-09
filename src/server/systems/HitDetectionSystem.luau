@@ -29,6 +29,15 @@ function HitDetectionSystem.system(_deltaTime)
 					-- local origin = hitboxCFrame.Position
 					-- local orientation = hitboxCFrame - hitboxCFrame.Position
 
+                    -- Debug hitbox
+                    -- local hitbox = Instance.new("Part")
+                    -- hitbox.Size = hitboxSize
+                    -- hitbox.Anchored = true
+                    -- hitbox.CanCollide = false
+                    -- hitbox.Transparency = 0.5
+                    -- hitbox.CFrame = hitboxCFrame
+                    -- hitbox.Parent = workspace
+
 					-- Create an overlap params to ignore the player's character
 					local overlapParams = OverlapParams.new()
 					overlapParams.FilterType = Enum.RaycastFilterType.Exclude
