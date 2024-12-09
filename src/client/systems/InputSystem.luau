@@ -16,7 +16,7 @@ InputSystem.interval = 0 -- Update every Heartbeat
 -- Store the previous state of the button for each entity
 local previousState = {}
 
-function InputSystem.system()
+function InputSystem.system(_deltaTime)
     -- Loop through all entities with the "Player" tag
     for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
         -- Get or create the InputComponent (Attribute) for the entity

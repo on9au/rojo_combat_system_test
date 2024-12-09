@@ -17,7 +17,7 @@ AnimationSystem.dependencies = {}
 
 AnimationSystem.interval = 0 -- Update every Heartbeat
 
-function AnimationSystem.system()
+function AnimationSystem.system(_deltaTime)
     for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
         local animator = Humanoid:FindFirstChildOfClass("Animator")
         if not animator then

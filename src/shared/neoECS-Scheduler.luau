@@ -8,7 +8,7 @@ local neoECSScheduler = {}
 neoECSScheduler.__index = neoECSScheduler
 
 -- Define the types for the system and dependencies
-type System = () -> ()  -- System is a function that takes no arguments and returns nothing
+type System = (number?) -> ()  -- System is a function that takes no arguments and returns nothing
 type SystemData = {name: string, system: System, interval: number, lastRun: number}
 
 -- Create a new neoECSScheduler
@@ -94,12 +94,12 @@ function neoECSScheduler:Update(deltaTime: number)
     -- end
     for _, sysData in ipairs(self.systems) do
         if sysData.interval == 0 then
-            sysData.system()  -- Execute the system's function immediately if interval is 0
+            sysData.system(deltaTime)  -- Execute the system's function immediately if interval is 0
             -- print(sysData.name .. " executed immediately")
         else
             sysData.lastRun = sysData.lastRun + deltaTime
             if sysData.lastRun >= sysData.interval then
-                sysData.system()  -- Execute the system's function
+                sysData.system(deltaTime)  -- Execute the system's function
                 -- print(sysData.name .. " executed after " .. sysData.lastRun .. " seconds")
                 sysData.lastRun = sysData.lastRun - sysData.interval  -- Adjust the timer instead of resetting to handle missed intervals
             end
