@@ -2,6 +2,8 @@ local InputSystem = require(script.Parent.InputSystem)
 local ComboComponent = require(script.Parent.Parent.components.ComboComponent)
 local AnimationComponent = require(script.Parent.Parent.components.AnimationComponent)
 local CooldownComponent = require(script.Parent.Parent.components.CooldownComponent)
+local PrimaryActionComponent = require(script.Parent.Parent.components.PrimaryActionComponent)
+local PrimaryActionItems = require(game:GetService("ReplicatedStorage").Shared.primaryItems.PrimaryItems)
 local CollectionService = game:GetService("CollectionService")
 
 -- # PrimaryActionSystem
@@ -24,18 +26,22 @@ function PrimaryActionSystem.system()
         ComboComponent.init(entity)
         AnimationComponent.init(entity)
         CooldownComponent.init(entity)
+        PrimaryActionComponent.init(entity)
+
+        -- Get the primary action item
+        local primaryActionItemName = entity:GetAttribute("PrimaryActionItem") or "Punch"
+        local primaryActionItem = PrimaryActionItems[primaryActionItemName]
 
         -- Check for punching state using an attribute
-        local isPunching = entity:GetAttribute("IsPrimaryButtonPressed")
-        -- local isKicking = entity:GetAttribute("IsPrimaryButtonPressed") -- Replace with actual kick detection logic
+        local IsPrimaryButtonPressed = entity:GetAttribute("IsPrimaryButtonPressed")
         local comboCount = entity:GetAttribute("ComboCount")
         local lastComboTime = entity:GetAttribute("LastComboTime")
         local cooldownTime = entity:GetAttribute("CooldownTime")
         local lastActionTime = entity:GetAttribute("LastActionTime")
-        local maxComboCount = entity:GetAttribute("MaxComboCount")
-        local comboWindow = entity:GetAttribute("ComboWindow")
+        local maxComboCount = primaryActionItem.maxComboCount
+        local comboWindow = primaryActionItem.comboWindow
 
-        if isPunching then
+        if IsPrimaryButtonPressed then
             -- Check cooldown
             if currentTime - lastActionTime >= cooldownTime then
                 -- Handle combo logic
@@ -55,20 +61,26 @@ function PrimaryActionSystem.system()
                 entity:SetAttribute("LastComboTime", currentTime)
 
                 -- Determine the action and set the animation
-                local action = isPunching and "Punch"
+                local action = primaryActionItemName
                 local animationName = action .. comboCount
                 entity:SetAttribute("CurrentAnimation", animationName)
 
                 -- Update cooldown attributes
                 if comboCount == maxComboCount then
-                    entity:SetAttribute("CooldownTime", 0.5)  -- Third combo has a cooldown of 0.5 seconds
+                    entity:SetAttribute("CooldownTime", primaryActionItem.thirdCooldownTime)
                 else
-                    entity:SetAttribute("CooldownTime", 0.25)  -- Other combos have a cooldown of 0.25 seconds
+                    entity:SetAttribute("CooldownTime", primaryActionItem.cooldownTime)
                 end
                 entity:SetAttribute("LastActionTime", currentTime)
 
                 -- Handle action logic here
                 print(entity.Name .. " is performing " .. action .. " with combo " .. comboCount .. "!")
+                print("Combo:" .. comboCount .. "/" .. maxComboCount)
+                if comboCount == maxComboCount then
+                    print("Damage: " .. primaryActionItem.thirdComboDamage .. " (Third combo damage)")
+                else
+                    print("Damage: " .. primaryActionItem.damage)
+                end
             end
         end
     end

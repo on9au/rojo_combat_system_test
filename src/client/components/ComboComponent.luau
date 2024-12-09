@@ -16,13 +16,13 @@ function ComboComponent.init(entity)
         entity:SetAttribute("LastComboTime", 0)
     end
 
-    if not entity:GetAttribute("ComboWindow") then
-        entity:SetAttribute("ComboWindow", 0.5)  -- Default combo window of 0.5 second
-    end
+    -- if not entity:GetAttribute("ComboWindow") then
+    --     entity:SetAttribute("ComboWindow", 0.5)  -- Default combo window of 0.5 second
+    -- end
 
-    if not entity:GetAttribute("MaxComboCount") then
-        entity:SetAttribute("MaxComboCount", 3)  -- Default maximum combo count of 3
-    end
+    -- if not entity:GetAttribute("MaxComboCount") then
+    --     entity:SetAttribute("MaxComboCount", 3)  -- Default maximum combo count of 3
+    -- end
 end
 
 return ComboComponent
