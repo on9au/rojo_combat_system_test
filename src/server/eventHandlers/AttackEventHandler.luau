@@ -4,7 +4,9 @@ local PrimaryItems = require(ReplicatedStorage.Shared.primaryItems.PrimaryItems)
 
 AttackEvent.OnServerEvent:Connect(function(player, actionName, comboCount)
     print("Event received!", player, actionName, comboCount)
-    if actionName ~= player:GetAttribute("PrimaryActionItem") or "punch" then
+    local serverPrimaryItem = player:GetAttribute("PrimaryActionItem") or "Punch"
+    print("Server primary item:", serverPrimaryItem)
+    if actionName ~= serverPrimaryItem then
         warn("Client sent an invalid item name! Is client and server in sync?")
         return
     end
