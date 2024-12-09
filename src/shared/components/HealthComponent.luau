@@ -3,7 +3,7 @@
 -- Attributes:
 -- - `Health`: `number` - The current health of the entity.
 -- - `MaxHealth`: `number` - The maximum health of the entity.
--- - `Defense`: `number` - The defense of the entity.
+-- - `Shield`: `number` - The shield of the entity.
 local HealthComponent = {}
 HealthComponent.__index = HealthComponent
 
@@ -16,8 +16,8 @@ function HealthComponent.init(entity)
         entity:SetAttribute("MaxHealth", 100)  -- Default max health
     end
 
-    if not entity:GetAttribute("Defense") then
-        entity:SetAttribute("Defense", 0)  -- Default defense
+    if not entity:GetAttribute("Shield") then
+        entity:SetAttribute("Shield", 0)  -- Default defense
     end
 end
 

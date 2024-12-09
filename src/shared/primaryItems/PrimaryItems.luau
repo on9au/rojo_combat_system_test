@@ -20,12 +20,12 @@
         damage = 10,
 
         -- The penetration coefficient dealt by the item
-        -- Basically, how much damage is dealt to the enemy's health and defense
-        -- Example: 0.5 means 50% of the damage is dealt to the enemy's health and 50% to the defense
-        -- Assuming enemy's health is 100 and defense is 100
-        -- The enemy's health is reduced by 5 and the defense is reduced by 5
-        -- If enemy's health is 100 and defense is 4
-        -- The enemy's health is reduced by 6 and the defense is reduced by 4 (the remaining 1 damage is dealt to the health)
+        -- Basically, how much damage is dealt to the enemy's health and shield
+        -- Example: 0.5 means 50% of the damage is dealt to the enemy's health and 50% to the shield
+        -- Assuming enemy's health is 100 and shield is 100
+        -- The enemy's health is reduced by 5 and the shield is reduced by 5
+        -- If enemy's health is 100 and shield is 4
+        -- The enemy's health is reduced by 6 and the shield is reduced by 4 (the remaining 1 damage is dealt to the health)
         penetration = 0,
 
         -- The penetration coefficient dealt by the max combo
