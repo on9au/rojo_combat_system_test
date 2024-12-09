@@ -11,10 +11,12 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, comboCount)
         player:SetAttribute("HitboxOffset", primaryActionItem.hitboxOffset)
         if comboCount == primaryActionItem.maxComboCount then
             player:SetAttribute("Damage", primaryActionItem.maxComboDamage)
+            player:SetAttribute("Penetration", primaryActionItem.maxComboPenetration)
             player:SetAttribute("CooldownEndTime", tick() + primaryActionItem.maxComboCooldownTime)
             player:SetAttribute("HitboxEndTime", tick() + primaryActionItem.maxComboHitboxDuration)
         else
             player:SetAttribute("Damage", primaryActionItem.damage)
+            player:SetAttribute("Penetration", primaryActionItem.penetration)
             player:SetAttribute("CooldownEndTime", tick() + primaryActionItem.cooldownTime)
             player:SetAttribute("HitboxEndTime", tick() + primaryActionItem.hitboxDuration)
         end

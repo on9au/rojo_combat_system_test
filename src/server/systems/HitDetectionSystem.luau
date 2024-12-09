@@ -30,6 +30,7 @@ function HitDetectionSystem.system(_deltaTime)
 					local hitboxSize = player:GetAttribute("HitboxSize")
 					local hitboxOffset = player:GetAttribute("HitboxOffset")
 					local damage = player:GetAttribute("Damage")
+                    local penetration = player:GetAttribute("Penetration")
 
 					local hitboxCFrame = rootPart.CFrame * CFrame.new(hitboxOffset)
 					-- local halfSize = hitboxSize / 2
@@ -61,10 +62,28 @@ function HitDetectionSystem.system(_deltaTime)
 								-- Initialize HealthComponent if not already done
 								HealthComponent.init(hitEntity)
 								local health = hitEntity:GetAttribute("Health")
+                                local defense = hitEntity:GetAttribute("Defense")
 								if health > 0 then
-									local newHealth = math.max(0, health - damage)
+                                    -- Calculate new damage and defense
+                                    -- where penetration is the percentage of damage that ignores defense
+                                    local newDefense = defense - (damage * (1 - penetration))
+
+                                    print("Defense:", defense, "New Defense:", newDefense)
+
+									local newHealth = math.max(0, health - (damage * penetration))
+
+                                    print("Health:", health, "New Health:", newHealth)
+
+                                    if newDefense < 0 then
+                                        -- If defense is negative after penetration, deal the remaining damage to health
+                                        newHealth = newHealth + newDefense -- using + since newDefense is negative
+                                        newDefense = 0
+                                        print("New Health after Defense:", newHealth)
+                                    end
+
 									hitEntity:SetAttribute("Health", newHealth)
-									print("Dealt", damage, "damage to", hitEntity.Name, "Remaining health:", newHealth)
+                                    hitEntity:SetAttribute("Defense", newDefense)
+									print("Dealt", damage, "damage to", hitEntity.Name, "H:", newHealth, "D:", newDefense)
 									-- Optionally, handle entity destruction if health <= 0
 									if newHealth <= 0 then
 										print(hitEntity.Name .. " has been destroyed!")

@@ -4,6 +4,7 @@
 -- - `HitboxSize`: `Vector3` - The size of the hitbox.
 -- - `HitboxOffset`: `Vector3` - The offset of the hitbox from the entity's position.
 -- - `Damage`: `number` - The damage to deal.
+-- - `Penetration`: `number` - The penetration coefficient.
 -- - `IsActive`: `boolean` - Whether the hitbox is active.
 -- - `HitboxEndTime`: `number` - The time when the hitbox ends.
 
@@ -21,6 +22,10 @@ function HitboxComponent.init(entity)
 
     if not entity:GetAttribute("Damage") then
         entity:SetAttribute("Damage", 0)
+    end
+
+    if not entity:GetAttribute("Penetration") then
+        entity:SetAttribute("Penetration", 0)
     end
 
     if not entity:GetAttribute("IsActive") then
