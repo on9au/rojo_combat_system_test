@@ -5,7 +5,9 @@ local Punch = {
     maxComboCount = 3,
     comboWindow = 0.5,
     damage = 10,
-    thirdComboDamage = 20,
+    maxComboDamage = 20,
+    hitboxSize = Vector3.new(4, 5, 6),
+    hitboxOffset = Vector3.new(0, 0, -3),
 }
 
 return Punch
