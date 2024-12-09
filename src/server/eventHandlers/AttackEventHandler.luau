@@ -1,11 +1,9 @@
--- src/server/AttackEventHandler.luau
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local AttackEvent = ReplicatedStorage:WaitForChild("AttackEvent")
 local PrimaryItems = require(ReplicatedStorage.Shared.primaryItems.PrimaryItems)
 
 AttackEvent.OnServerEvent:Connect(function(player, actionName, comboCount)
-    print(player, actionName, comboCount)
+    print("Event received!", player, actionName, comboCount)
     local primaryActionItem = PrimaryItems[actionName]
     if primaryActionItem then
         -- Set hitbox attributes
@@ -19,9 +17,10 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, comboCount)
             player:SetAttribute("CooldownEndTime", tick() + primaryActionItem.cooldownTime)
         end
         player:SetAttribute("IsActive", true)
-        player:SetAttribute("MoveForward", primaryActionItem.moveForward)
 
         -- Set movement adjustments
         player:SetAttribute("SpeedMultiplier", 0.5)
     end
 end)
+
+return nil

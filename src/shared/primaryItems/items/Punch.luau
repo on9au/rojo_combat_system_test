@@ -8,7 +8,6 @@ local Punch = {
     maxComboDamage = 20,
     hitboxSize = Vector3.new(4, 5, 6),
     hitboxOffset = Vector3.new(0, 0, -3),
-    moveForward = true,
 }
 
 return Punch

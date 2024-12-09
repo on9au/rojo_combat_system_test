@@ -1,13 +1,23 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local neoECSScheduler = require(ReplicatedStorage.Shared:FindFirstChild("neoECS-Scheduler"))
 
--- Events Setup
+-- RemoteEvents Setup
 
 local Events = ReplicatedStorage.Shared.events
 
 for _, eventModule in Events:GetChildren() do
     if eventModule:IsA("ModuleScript") then
         require(eventModule)
+    end
+end
+
+-- Server Event Handlers Setup
+
+local eventHandlersFolder = script:WaitForChild("eventHandlers")
+
+for _, eventHandlerModule in eventHandlersFolder:GetChildren() do
+    if eventHandlerModule:IsA("ModuleScript") then
+        require(eventHandlerModule)
     end
 end
 
