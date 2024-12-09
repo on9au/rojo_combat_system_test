@@ -12,6 +12,7 @@ local Punch = {
     hitboxOffset = Vector3.new(0, 0, -2),
     hitboxDuration = 0.27,
     maxComboHitboxDuration = 0.4,
+    speedMultiplier = 0.5,
 }
 
 return Punch

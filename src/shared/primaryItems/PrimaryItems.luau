@@ -45,6 +45,9 @@
 
         -- The duration of the max combo hitbox
         maxComboHitboxDuration = 0.4,
+
+        -- The speed multiplier of the entity when the item is used
+        speedMultiplier = 0.5,
     }
 
     return Punch
