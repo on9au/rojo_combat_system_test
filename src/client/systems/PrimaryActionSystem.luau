@@ -69,13 +69,12 @@ function PrimaryActionSystem.system(_deltaTime)
 				-- Update cooldown attributes
 				local cooldownDuration
 				if comboCount == maxComboCount then
-					cooldownDuration = primaryActionItem.thirdCooldownTime
+					cooldownDuration = primaryActionItem.maxComboCooldownTime
 				else
 					cooldownDuration = primaryActionItem.cooldownTime
 				end
 				entity:SetAttribute("CooldownTime", cooldownDuration)
 				entity:SetAttribute("LastActionTime", currentTime)
-				entity:SetAttribute("CooldownEndTime", currentTime + cooldownDuration)
 
 				-- -- Handle movement adjustments
 				-- entity:SetAttribute("SpeedMultiplier", 0.5) -- Slow down the player
