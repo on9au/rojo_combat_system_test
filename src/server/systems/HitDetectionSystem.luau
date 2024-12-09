@@ -15,6 +15,13 @@ function HitDetectionSystem.system(_deltaTime)
 	for _, player in ipairs(Players:GetPlayers()) do
 		HitboxComponent.init(player)
 		local isActive = player:GetAttribute("IsActive")
+		local currentTime = tick()
+
+        -- Check if the hitbox is active and within the hitbox time
+		if currentTime >= player:GetAttribute("HitboxEndTime") then
+			player:SetAttribute("IsActive", false)
+            continue -- Skip the rest of the loop
+		end
 		if isActive then
 			local character = player.Character
 			if character then
@@ -29,14 +36,14 @@ function HitDetectionSystem.system(_deltaTime)
 					-- local origin = hitboxCFrame.Position
 					-- local orientation = hitboxCFrame - hitboxCFrame.Position
 
-                    -- Debug hitbox
-                    -- local hitbox = Instance.new("Part")
-                    -- hitbox.Size = hitboxSize
-                    -- hitbox.Anchored = true
-                    -- hitbox.CanCollide = false
-                    -- hitbox.Transparency = 0.5
-                    -- hitbox.CFrame = hitboxCFrame
-                    -- hitbox.Parent = workspace
+					-- Debug hitbox
+					-- local hitbox = Instance.new("Part")
+					-- hitbox.Size = hitboxSize
+					-- hitbox.Anchored = true
+					-- hitbox.CanCollide = false
+					-- hitbox.Transparency = 0.5
+					-- hitbox.CFrame = hitboxCFrame
+					-- hitbox.Parent = workspace
 
 					-- Create an overlap params to ignore the player's character
 					local overlapParams = OverlapParams.new()

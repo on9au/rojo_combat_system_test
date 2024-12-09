@@ -12,11 +12,14 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, comboCount)
         if comboCount == primaryActionItem.maxComboCount then
             player:SetAttribute("Damage", primaryActionItem.maxComboDamage)
             player:SetAttribute("CooldownEndTime", tick() + primaryActionItem.maxComboCooldownTime)
+            player:SetAttribute("HitboxEndTime", tick() + primaryActionItem.maxComboHitboxDuration)
         else
             player:SetAttribute("Damage", primaryActionItem.damage)
             player:SetAttribute("CooldownEndTime", tick() + primaryActionItem.cooldownTime)
+            player:SetAttribute("HitboxEndTime", tick() + primaryActionItem.hitboxDuration)
         end
         player:SetAttribute("IsActive", true)
+
 
         -- Set movement adjustments
         player:SetAttribute("SpeedMultiplier", 0.5)
