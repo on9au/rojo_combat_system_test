@@ -50,8 +50,8 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, clientComboCount)
     end
 
     -- Update combo attributes
-    player:SetAttribute("ComboCount", serverComboCount)
-    player:SetAttribute("LastComboTime", currentTime)
+    player:SetAttribute("ServerComboCount", serverComboCount)
+    player:SetAttribute("ServerLastComboTime", currentTime)
 
     -- Set hitbox and damage attributes
     player:SetAttribute("HitboxSize", primaryActionItem.hitboxSize)
