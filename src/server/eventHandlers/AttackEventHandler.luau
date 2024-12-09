@@ -27,8 +27,8 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, clientComboCount)
     ComboComponent.init(player)
 
     -- Server-side combo data
-    local serverComboCount = player:GetAttribute("ComboCount") or 0
-    local lastComboTime = player:GetAttribute("LastComboTime") or 0
+    local serverComboCount = player:GetAttribute("ServerComboCount") or 0
+    local lastComboTime = player:GetAttribute("ServerLastComboTime") or 0
     local comboWindow = primaryActionItem.comboWindow
     local maxComboCount = primaryActionItem.maxComboCount
 
@@ -72,3 +72,5 @@ AttackEvent.OnServerEvent:Connect(function(player, actionName, clientComboCount)
     player:SetAttribute("IsActive", true)
     player:SetAttribute("SpeedMultiplier", primaryActionItem.speedMultiplier)
 end)
+
+return nil
