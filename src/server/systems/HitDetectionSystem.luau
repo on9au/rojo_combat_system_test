@@ -17,10 +17,10 @@ function HitDetectionSystem.system(_deltaTime)
 		local isActive = player:GetAttribute("IsActive")
 		local currentTime = tick()
 
-        -- Check if the hitbox is active and within the hitbox time
+		-- Check if the hitbox is active and within the hitbox time
 		if currentTime >= player:GetAttribute("HitboxEndTime") then
 			player:SetAttribute("IsActive", false)
-            continue -- Skip the rest of the loop
+			continue -- Skip the rest of the loop
 		end
 		if isActive then
 			local character = player.Character
@@ -30,7 +30,7 @@ function HitDetectionSystem.system(_deltaTime)
 					local hitboxSize = player:GetAttribute("HitboxSize")
 					local hitboxOffset = player:GetAttribute("HitboxOffset")
 					local damage = player:GetAttribute("Damage")
-                    local penetration = player:GetAttribute("Penetration")
+					local penetration = player:GetAttribute("Penetration")
 
 					local hitboxCFrame = rootPart.CFrame * CFrame.new(hitboxOffset)
 					-- local halfSize = hitboxSize / 2
@@ -59,31 +59,51 @@ function HitDetectionSystem.system(_deltaTime)
 						local hitEntity = part:FindFirstAncestorWhichIsA("Model")
 						if hitEntity and hitEntity ~= character and not hitEntities[hitEntity] then
 							if CollectionService:HasTag(hitEntity, "Damageable") then
+								local isParrying = hitEntity:GetAttribute("IsParrying")
+								local parryEndTime = hitEntity:GetAttribute("ParryEndTime") or 0
 								-- Initialize HealthComponent if not already done
 								HealthComponent.init(hitEntity)
 								local health = hitEntity:GetAttribute("Health")
-                                local shield = hitEntity:GetAttribute("Shield")
-								if health > 0 then
-                                    -- Calculate new damage and shield
-                                    -- where penetration is the percentage of damage that ignores defense
-                                    local newShield = shield - (damage * (1 - penetration))
+								local shield = hitEntity:GetAttribute("Shield")
+								local currentTime = tick()
+								if isParrying and currentTime < parryEndTime then
+									-- Parry is successful
+									-- Handle parry effect (e.g., stun the attacker)
+									player:SetAttribute("Stunned", true)
+									player:SetAttribute("StunEndTime", currentTime + 1) -- Stun duration: 1 second
 
-                                    print("Shield:", shield, "New Shield:", newShield)
+									-- End parry state
+									hitEntity:SetAttribute("IsParrying", false)
+								elseif health > 0 then
+									-- Calculate new damage and shield
+									-- where penetration is the percentage of damage that ignores defense
+									local newShield = shield - (damage * (1 - penetration))
+
+									print("Shield:", shield, "New Shield:", newShield)
 
 									local newHealth = math.max(0, health - (damage * penetration))
 
-                                    print("Health:", health, "New Health:", newHealth)
+									print("Health:", health, "New Health:", newHealth)
 
-                                    if newShield < 0 then
-                                        -- If shield is negative after penetration, deal the remaining damage to health
-                                        newHealth = newHealth + newShield -- using + since newShield is negative
-                                        newShield = 0
-                                        print("New Health after Defense:", newHealth)
-                                    end
+									if newShield < 0 then
+										-- If shield is negative after penetration, deal the remaining damage to health
+										newHealth = newHealth + newShield -- using + since newShield is negative
+										newShield = 0
+										print("New Health after Defense:", newHealth)
+									end
 
 									hitEntity:SetAttribute("Health", newHealth)
-                                    hitEntity:SetAttribute("Shield", newShield)
-									print("Dealt", damage, "damage to", hitEntity.Name, "H:", newHealth, "D:", newShield)
+									hitEntity:SetAttribute("Shield", newShield)
+									print(
+										"Dealt",
+										damage,
+										"damage to",
+										hitEntity.Name,
+										"H:",
+										newHealth,
+										"D:",
+										newShield
+									)
 									-- Optionally, handle entity destruction if health <= 0
 									if newHealth <= 0 then
 										print(hitEntity.Name .. " has been destroyed!")

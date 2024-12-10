@@ -1,5 +1,3 @@
--- src/server/eventHandlers/AttackEventHandler.luau
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local AttackEvent = ReplicatedStorage:WaitForChild("AttackEvent")
 local PrimaryItems = require(ReplicatedStorage.Shared.primaryItems.PrimaryItems)

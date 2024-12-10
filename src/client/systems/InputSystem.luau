@@ -14,39 +14,49 @@ InputSystem.dependencies = {}
 InputSystem.interval = 0 -- Update every Heartbeat
 
 -- Store the previous state of the button for each entity
-local previousState = {}
+local previousPrimaryState = {}
+local previousSecondaryState = {}
 
 function InputSystem.system(_deltaTime)
-    -- Loop through all entities with the "Player" tag
     for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
-        -- Get or create the InputComponent (Attribute) for the entity
+        -- Initialize InputComponent
         InputComponent.init(entity)
 
-        -- Detect left-click (or key press) for punching
+        -- Detect left-click (primary attack)
         local isLeftClickDown = UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+        local prevPrimaryState = previousPrimaryState[entity] or false
 
-        -- Get the previous state of the button
-        local prevState = previousState[entity] or false
-
-        -- Update the IsPrimaryButtonDown attribute based on the left-click state
+        -- Update attributes for primary attack
         entity:SetAttribute("IsPrimaryButtonDown", isLeftClickDown)
-
-        -- Update the IsPrimaryButtonPressed attribute
-        if isLeftClickDown and not prevState then
+        if isLeftClickDown and not prevPrimaryState then
             entity:SetAttribute("IsPrimaryButtonPressed", true)
         else
             entity:SetAttribute("IsPrimaryButtonPressed", false)
         end
-
-        -- Update the IsPrimaryButtonReleased attribute
-        if not isLeftClickDown and prevState then
+        if not isLeftClickDown and prevPrimaryState then
             entity:SetAttribute("IsPrimaryButtonReleased", true)
         else
             entity:SetAttribute("IsPrimaryButtonReleased", false)
         end
+        previousPrimaryState[entity] = isLeftClickDown
 
-        -- Store the current state as the previous state for the next frame
-        previousState[entity] = isLeftClickDown
+        -- Detect right-click (parry)
+        local isRightClickDown = UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+        local prevSecondaryState = previousSecondaryState[entity] or false
+
+        -- Update attributes for parry
+        entity:SetAttribute("IsSecondaryButtonDown", isRightClickDown)
+        if isRightClickDown and not prevSecondaryState then
+            entity:SetAttribute("IsSecondaryButtonPressed", true)
+        else
+            entity:SetAttribute("IsSecondaryButtonPressed", false)
+        end
+        if not isRightClickDown and prevSecondaryState then
+            entity:SetAttribute("IsSecondaryButtonReleased", true)
+        else
+            entity:SetAttribute("IsSecondaryButtonReleased", false)
+        end
+        previousSecondaryState[entity] = isRightClickDown
     end
 end
 
