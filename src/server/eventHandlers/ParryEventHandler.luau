@@ -1,12 +1,12 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ParryEvent = ReplicatedStorage:WaitForChild("ParryEvent")
-local ParryComponent = require(script.Parent.Parent.components.ParryComponent)
+local ParryValidationComponent = require(script.Parent.Parent.components.ParryValidationComponent)
 
 ParryEvent.OnServerEvent:Connect(function(player)
     local currentTime = tick()
 
     -- Initialize ParryComponent
-    ParryComponent.init(player)
+    ParryValidationComponent.init(player)
 
     local parryCooldownEndTime = player:GetAttribute("ParryCooldownEndTime") or 0
 
