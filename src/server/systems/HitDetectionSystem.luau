@@ -71,7 +71,6 @@ function HitDetectionSystem.system(_deltaTime)
 								HealthComponent.init(hitEntity)
 								local health = hitEntity:GetAttribute("Health")
 								local shield = hitEntity:GetAttribute("Shield")
-								local currentTime = tick()
 								if isParrying and currentTime < parryEndTime then
 									-- Parry is successful
 									-- Handle parry effect (e.g., stun the attacker)
