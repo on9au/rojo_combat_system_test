@@ -1,7 +1,7 @@
 local ParryComponent = require(script.Parent.Parent.components.ParryComponent)
 local InputSystem = require(script.Parent.InputSystem)
 local CooldownComponent = require(script.Parent.Parent.components.CooldownComponent)
-local CollectionService = game:GetService("CollectionService")
+-- local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ParryEvent = ReplicatedStorage:WaitForChild("ParryEvent")
 

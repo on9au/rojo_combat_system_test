@@ -1,5 +1,5 @@
 local InputComponent = require(script.Parent.Parent.components.InputComponent)
-local CollectionService = game:GetService("CollectionService")
+-- local CollectionService = game:GetService("CollectionService")
 local UserInputService = game:GetService("UserInputService")
 
 local entity = game.Players.LocalPlayer
