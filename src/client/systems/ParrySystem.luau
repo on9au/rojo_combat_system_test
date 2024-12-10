@@ -1,5 +1,6 @@
 local ParryComponent = require(script.Parent.Parent.components.ParryComponent)
 local InputSystem = require(script.Parent.InputSystem)
+local CooldownComponent = require(script.Parent.Parent.components.CooldownComponent)
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ParryEvent = ReplicatedStorage:WaitForChild("ParryEvent")
@@ -18,23 +19,25 @@ function ParrySystem.system(_deltaTime)
 	local currentTime = tick()
 	for _, entity in ipairs(CollectionService:GetTagged("LocalPlayer")) do
 		ParryComponent.init(entity)
+        CooldownComponent.init(entity)
 
         -- Get the primary action item
 		local primaryActionItemName = entity:GetAttribute("PrimaryActionItem") or "Punch"
 
 		local isParrying = entity:GetAttribute("IsParrying")
-		local parryCooldownEndTime = entity:GetAttribute("ParryCooldownEndTime")
 		local isSecondaryButtonPressed = entity:GetAttribute("IsSecondaryButtonPressed")
 
-		-- Parry parameters
-		local parryDuration = 0.5 -- Duration of the parry window
-		local parryCooldown = 1.5 -- Cooldown after parry
+        local lastActionTime = entity:GetAttribute("LastActionTime")
 
-		if isSecondaryButtonPressed and currentTime >= parryCooldownEndTime then
+		-- Parry parameters
+		local parryDuration = 0.2 -- Duration of the parry window
+		local parryCooldown = 0.22 -- Cooldown after parry
+
+		if isSecondaryButtonPressed and currentTime - lastActionTime >= parryCooldown then
 			-- Start parry
 			entity:SetAttribute("IsParrying", true)
 			entity:SetAttribute("ParryEndTime", currentTime + parryDuration)
-			entity:SetAttribute("ParryCooldownEndTime", currentTime + parryCooldown)
+            entity:SetAttribute("LastActionTime", currentTime)
 
             print("Parrying!")
 

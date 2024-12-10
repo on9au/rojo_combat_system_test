@@ -22,6 +22,12 @@ function HitDetectionSystem.system(_deltaTime)
 			player:SetAttribute("IsActive", false)
 			continue -- Skip the rest of the loop
 		end
+
+		-- Check if parry is active and within the parry time
+		if currentTime >= player:GetAttribute("ServerParryEndTime") then
+			player:SetAttribute("ServerIsParrying", false)
+		end
+
 		if isActive then
 			local character = player.Character
 			if character then
