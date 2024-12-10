@@ -23,3 +23,5 @@ ParryEvent.OnServerEvent:Connect(function(player)
         warn(player.Name .. " tried to parry during cooldown.")
     end
 end)
+
+return nil
