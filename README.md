@@ -1,5 +1,7 @@
 # Combat System Test
 
+epic roblox stuff where i experiment with combat system and a self made (poorly implemented) ECS in roblox
+
 ## TODO
 
 - [ ] Parry System
